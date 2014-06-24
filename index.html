@@ -54,10 +54,10 @@ Next, let's make the connection between our outlet and the table view itself.  N
   		<div class='col12 pad1y'>
 <h2 class="subtitle">Adding the SDK</h2>
 <h3 class="subtitle">Install the SDK</h3>
-Using the link above, download the SDK to your computer.  Copy the GovDataRequest.swift file to your project by dragging it from a Finder window to your project's file structure in Xcode.  Make sure Copy items if needed is checked.<br><br>
+Using the link above, download the SDK to your computer.  Copy the <strong>GovDataRequest.swift</strong> file to your project by dragging it from a Finder window to your project's file structure in Xcode.  Make sure <strong>Copy items if needed</strong> is checked.<br><br>
 <h3 class="subtitle">Apply the SDK</h3>
 <h4 class="subtitle">Conform to the protocol</h4>
-For the SDK to function properly, we need to ensure the view controller conforms to another protocol.  Make one more change to the class declaration:
+For the SDK to function properly, we need to ensure the view controller conforms to its protocol.  Make one more change to the class declaration:
 <pre class="prettyprint">class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, GovDataRequestProtocol {</pre><br>
 Now, add two more functions to the class:
 <pre class="prettyprint">    func didCompleteWithError (errorMessage: String) {
@@ -76,9 +76,9 @@ Now, add two more functions to the class:
         
     }
 </pre><br>
-<p><strong>note:</strong> The first two lines of code we just added inside didCompleteWithDictionary are based on the structure of the JSON response that DOL's V1 API returns.  If you use this with another API, what you do here may be different.</p>
+<p><strong>note:</strong> The first two lines of code we just added inside <strong>didCompleteWithDictionary</strong> are based on the structure of the JSON response that DOL's V1 API returns.  If you use this with another API, what you do here may be different.</p>
 <h4 class="subtitle">Prepare To Send A Request</h4>
-Back up in the viewDidLoad function, add the following:
+Back up in the <strong>viewDidLoad</strong> function, add the following:
 <pre class="prettyprint">        // Initialize the SDK
         var firstRequest: GovDataRequest = GovDataRequest(APIKey: "{use your own API key}", APIHost: "http://api.dol.gov", APIURL: "/V1")
         
