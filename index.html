@@ -21,10 +21,10 @@ This is a simple app whose purpose is to demonstrate how to use the Swift SDK.  
 <h3 class="subtitle">Create New Project</h3>
 <p><strong>note:</strong> If you're already very familiar with creating a single view app with a table view, you can skim or skip most of this section.</p>
 In Xcode's File menu, choose <strong>New</strong> -&gt; <strong>Project</strong> and then select <strong>iOS</strong> -&gt; <strong>Application</strong> -&gt; <strong>Single View Application</strong>.  Click <strong>Next</strong>.<br><br>
-Give your project a Product Name.  If Organization Name and Organization Identifier are blank, take care of that here.  Choose <strong>Swift</strong> for the language and <strong>iPhone</strong> for the device.  Click <strong>Next</strong> and save your project in the folder of your choice.<br>
+Give your project a Product Name.  If Organization Name and Organization Identifier are blank, take care of that here.  Choose <strong>Swift</strong> for the language and <strong>iPhone</strong> for the device.  Click <strong>Next</strong> and save your project in the folder of your choice.<br><br>
 <h3 class="subtitle">Set up your interface</h3>
 Open your main storyboard and drag a Table View (not a Table View Controller) to the main window.  Make sure it snaps into place with the top edge just below the battery indicator.  With the table view selected, choose the icon near the bottom right of the storyboard and second from the right.  Its tool tip is "Resolve Auto Layout Issues" and it looks like a TIE Fighter&trade;.  In the pop-up menu, choose Reset to Suggested Constraints.<br><br>
-Next, right-click (alternate: ctrl-click) on the table view and drag your cursor over to the View Controller in the View Controller Scene.  Choose the dataSource outlet.  Do the same for delegate.<br>
+Next, right-click (alternate: ctrl-click) on the table view and drag your cursor over to the View Controller in the View Controller Scene.  Choose the dataSource outlet.  Do the same for delegate.<br><br>
 <h3 class="subtitle">Set up your View Controller</h3>
 Let's first get some of the basic required code in place before we get to the SDK.  Since this view controller contains a table view, we need to make some changes to the class declaration:
 
@@ -54,7 +54,7 @@ Next, let's make the connection between our outlet and the table view itself.  N
   		<div class='col12 pad1y'>
 <h2 class="subtitle">Adding the SDK</h2>
 <h3 class="subtitle">Install the SDK</h3>
-Using the link above, download the SDK to your computer.  Copy the GovDataRequest.swift file to your project by dragging it from a Finder window to your project's file structure in Xcode.  Make sure Copy items if needed is checked.<br>
+Using the link above, download the SDK to your computer.  Copy the GovDataRequest.swift file to your project by dragging it from a Finder window to your project's file structure in Xcode.  Make sure Copy items if needed is checked.<br><br>
 <h3 class="subtitle">Apply the SDK</h3>
 <h4 class="subtitle">Conform to the protocol</h4>
 For the SDK to function properly, we need to ensure the view controller conforms to another protocol.  Make one more change to the class declaration:
