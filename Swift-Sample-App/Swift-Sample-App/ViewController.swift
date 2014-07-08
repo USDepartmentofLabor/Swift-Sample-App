@@ -48,7 +48,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         var rowData: NSDictionary = self.tableData[indexPath.row] as NSDictionary
         
-        cell.text = rowData["Agency"] as String
+        cell.textLabel.text = rowData["Agency"] as String
         
         var agencyName: NSString = rowData["AgencyFullName"] as NSString
         
