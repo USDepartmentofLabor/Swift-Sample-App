@@ -54,7 +54,7 @@ Next, let's make the connection between our outlet and the table view itself.  N
   		<div class='col12 pad1y'>
 <h2 class="subtitle">Adding the SDK</h2>
 <h3 class="subtitle">Install the SDK</h3>
-Using the link above, download the SDK to your computer.  Copy the <strong>GovDataRequest.swift</strong> file to your project by dragging it from a Finder window to your project's file structure in Xcode.  Make sure <strong>Copy items if needed</strong> is checked.<br><br>
+Using the link above, download the SDK to your computer.  Copy  <strong>GovDataRequest.swift</strong> and the <strong>SWXMLHash<strong> folder to your project by dragging it from a Finder window to your project's file structure in Xcode.  Make sure <strong>Copy items if needed</strong> is checked.<br><br>
 <h3 class="subtitle">Apply the SDK</h3>
 <h4 class="subtitle">Conform to the protocol</h4>
 For the SDK to function properly, we need to ensure the view controller conforms to its protocol.  Make one more change to the class declaration:
@@ -73,6 +73,10 @@ Now, add two more functions to the class:
             self.appsTableView.reloadData()
             })
         
+        
+    }
+
+    func didCompleteWithXML (results:XMLIndexer) {
         
     }
 </pre><br>
