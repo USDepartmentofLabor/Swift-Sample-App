@@ -72,5 +72,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         
     }
+    
+    func didCompleteWithXML(results: XMLIndexer) {
+        
+        
+    }
 }
 
