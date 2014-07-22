@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, GovDataRequestProtocol {
                             
-    @IBOutlet var appsTableView : UITableView
+    @IBOutlet var appsTableView : UITableView!
     // Create an array to hold the table view data
     var tableData: NSArray = []
 
