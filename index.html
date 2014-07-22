@@ -30,7 +30,7 @@ Let's first get some of the basic required code in place before we get to the SD
 
 <pre class="prettyprint">class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {</pre><br>
 Below this line and before the viewDidLoad function, add the following:
-<pre class="prettyprint">    @IBOutlet var appsTableView : UITableView
+<pre class="prettyprint">    @IBOutlet var appsTableView : UITableView!
     // Create an array to hold the table view data
     var tableData: NSArray = []
 </pre><br>
@@ -117,7 +117,7 @@ You're done.  Run your app!
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, GovDataRequestProtocol {
                             
-    @IBOutlet var appsTableView : UITableView
+    @IBOutlet var appsTableView : UITableView!
     // Create an array to hold the table view data
     var tableData: NSArray = []
 
