@@ -39,22 +39,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
 
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableData.count
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "MyTestCell")
         
         var rowData: NSDictionary = self.tableData[indexPath.row] as NSDictionary
         
-        cell.textLabel.text = rowData["Agency"] as String
+        cell.textLabel?.text = rowData["Agency"] as? String
         
         var agencyName: NSString = rowData["AgencyFullName"] as NSString
         
-        cell.detailTextLabel.text = agencyName
+        cell.detailTextLabel?.text = agencyName
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // don't do anything
     }
 
     func didCompleteWithError (errorMessage: String) {
