@@ -1,0 +1,189 @@
+---
+layout: page
+title: Beginner's Guide
+---
+  	<div class='limiter pad1y pad4x clearfix'>
+  		<div class='col12 pad1y'>
+                <h1 class="title" id="page-title">Swift Federal Data SDK Sample App</h1>
+</div>
+</div>
+  	<div class='limiter pad0y pad4x clearfix'>
+  		<div class='col12 pad1y'>
+This is a simple app whose purpose is to demonstrate how to use the Swift SDK.  (<a href="https://github.com/USDepartmentofLabor/Swift-Federal-Data-SDK">Get the SDK code</a>)  (<a href="https://github.com/USDepartmentofLabor/Swift-Sample-App">Get the sample code</a>)
+<p><strong>Important:</strong> This SDK was built using pre-release technology.  This SDK is in beta until it has been successfully tested with a production release version of Apple's Swift language.  Because of this, if Apple makes any changes to the underlying language, tools, and/or compiler, this SDK may break until fixes are made.</p>
+<p><strong>note:</strong> To use DOL's API you must register at <a href="https://devtools.dol.gov/developer">https://devtools.dol.gov/developer</a> and request an API key for each application that will access the API. Registration and API keys are free. A separate API key is not necessary for each application, but if you reuse your key across multiple apps, <a href="http://developer.dol.gov/dataset/api-metrics-key">your apps' metrics</a> will be combined and of little value.</p>
+<p>API key requirements vary between federal agency's APIs</p>
+</div>
+</div>
+  	<div class='limiter pad0y pad4x clearfix'>
+  		<div class='col12 pad1y'>
+<h2 class="subtitle">Preparing Your Project</h2>
+<h3 class="subtitle">Create New Project</h3>
+<p><strong>note:</strong> If you're already very familiar with creating a single view app with a table view, you can skim or skip most of this section.</p>
+In Xcode's File menu, choose <strong>New</strong> -&gt; <strong>Project</strong> and then select <strong>iOS</strong> -&gt; <strong>Application</strong> -&gt; <strong>Single View Application</strong>.  Click <strong>Next</strong>.<br><br>
+Give your project a Product Name.  If Organization Name and Organization Identifier are blank, take care of that here.  Choose <strong>Swift</strong> for the language and <strong>iPhone</strong> for the device.  Click <strong>Next</strong> and save your project in the folder of your choice.<br><br>
+<h3 class="subtitle">Set up your interface</h3>
+Open your main storyboard and drag a <strong>Table View</strong> (not a Table View Controller) to the main window.  Make sure it snaps into place with the top edge just below the battery indicator.  With the table view selected, choose the icon near the bottom right of the storyboard and second from the right.  Its tool tip is <strong>"Resolve Auto Layout Issues"</strong> and it looks like a TIE Fighter&trade;.  In the pop-up menu, choose <strong>Reset to Suggested Constraints</strong>.<br><br>
+Next, right-click (alternate: ctrl-click) on the table view and drag your cursor over to the <strong>View Controller</strong> in the <strong>View Controller Scene</strong>.  Choose the dataSource outlet.  Do the same for delegate.<br><br>
+<h3 class="subtitle">Set up your View Controller</h3>
+Let's first get some of the basic required code in place before we get to the SDK.  Since this view controller contains a table view, we need to make some changes to the class declaration:
+
+<pre class="prettyprint">class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {</pre><br>
+Below this line and before the viewDidLoad function, add the following:
+<pre class="prettyprint">    @IBOutlet var appsTableView : UITableView!
+    // Create an array to hold the table view data
+    var tableData: NSArray = []
+</pre><br>
+In order for our view controller to conform to the <strong>UITableViewDataSource</strong> protocol, we need to add a couple functions within the class:
+<pre class="prettyprint">    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        return tableData.count
+    }
+    
+    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+        let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "MyTestCell")
+        
+        var rowData: NSDictionary = self.tableData[indexPath.row] as NSDictionary
+        
+        return cell
+    }
+</pre><br>
+Next, let's make the connection between our outlet and the table view itself.  Near the top right of the window is an icon that looks like a tuxedo.  That is the <strong>Assistant Editor</strong>.  Choose that.  Your window will split into two.  On the left-hand side should be <strong>ViewController.swift</strong>.  The window on the right will likely be empty.  Near the top of that window are a backwards and forwards button and another button, likely text just to the right of those.  Click that.  Choose <strong>Manual</strong> -&gt; <strong><i>project name</i></strong> -&gt; <strong><i>project name</i></strong> -&gt; <strong>Main.storyboard</strong> -&gt; <strong>Main.storyboard (base)</strong>.  In your swift file, click on the empty circle to the left of <strong>@IBOutlet</strong> and drag it to the <strong>Table View</strong> in the <strong>View Controller Scene</strong>.  Once you have done this, you can switch back to the <strong>Standard Editor</strong> (the icon to the left of the tuxedo).
+</div>
+</div>
+  	<div class='limiter pad0y pad4x clearfix'>
+  		<div class='col12 pad1y'>
+<h2 class="subtitle">Adding the SDK</h2>
+<h3 class="subtitle">Install the SDK</h3>
+Using the link above, download the SDK to your computer.  Copy  <strong>GovDataRequest.swift</strong> and the <strong>SWXMLHash</strong> folder to your project by dragging it from a Finder window to your project's file structure in Xcode.  Make sure <strong>Copy items if needed</strong> is checked.<br><br>
+<h3 class="subtitle">Apply the SDK</h3>
+<h4 class="subtitle">Conform to the protocol</h4>
+For the SDK to function properly, we need to ensure the view controller conforms to its protocol.  Make one more change to the class declaration:
+<pre class="prettyprint">class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, GovDataRequestProtocol {</pre><br>
+Now, add two more functions to the class:
+<pre class="prettyprint">    func didCompleteWithError (errorMessage: String) {
+        NSLog("error")
+        
+    }
+    
+    func didCompleteWithDictionary (results:NSDictionary) {
+        var resultsDictionary: NSDictionary = results["d"] as NSDictionary
+        var resultsArray: NSArray = resultsDictionary["results"] as NSArray
+        dispatch_async(dispatch_get_main_queue(), {
+            self.tableData = resultsArray
+            self.appsTableView.reloadData()
+            })
+        
+        
+    }
+
+    func didCompleteWithXML (results:XMLIndexer) {
+        
+    }
+</pre><br>
+<p><strong>note:</strong> The first two lines of code we just added inside <strong>didCompleteWithDictionary</strong> are based on the structure of the JSON response that DOL's V1 API returns.  If you use this with another API, what you do here may be different.</p>
+<h4 class="subtitle">Prepare To Send A Request</h4>
+Back up in the <strong>viewDidLoad</strong> function, add the following:
+<pre class="prettyprint">        // Initialize the SDK
+        var firstRequest: GovDataRequest = GovDataRequest(APIKey: "{use your own API key}", APIHost: "http://api.dol.gov", APIURL: "/V1")
+        
+        // Set this class to be the SDK's delegate
+        firstRequest.delegate = self
+        
+        // Create an empty dictionary for the arguments
+        var arguments = Dictionary<String, String>()
+        
+        // Set the timeOut to be 60.0 (optional)
+        firstRequest.timeOut = 60.0
+        
+        // Submit the request
+        firstRequest.callAPIMethod(method: "DOLAgency/Agencies", arguments: arguments)
+</pre><br>
+<h4 class="subtitle">Modify the Table View Functions</h4>
+Add the following right above the return statement in <strong>func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell!</strong>
+
+<pre class="prettyprint">        cell.textLabel.text = rowData["Agency"] as String
+        
+        var agencyName: NSString = rowData["AgencyFullName"] as NSString
+        
+        cell.detailTextLabel.text = agencyName
+</pre><br>
+You're done.  Run your app!
+</div>
+</div>
+  	<div class='limiter pad0y pad4x clearfix'>
+  		<div class='col12 pad1y'>
+<h2 class="subtitle">The Full ViewController Code</h2>
+<pre class="prettyprint">import UIKit
+
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, GovDataRequestProtocol {
+                            
+    @IBOutlet var appsTableView : UITableView!
+    // Create an array to hold the table view data
+    var tableData: NSArray = []
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        // Initialize the SDK
+        var firstRequest: GovDataRequest = GovDataRequest(APIKey: "", APIHost: "http://api.dol.gov", APIURL: "/V1")
+        
+        // Set this class to be the SDK's delegate
+        firstRequest.delegate = self
+        
+        // Create an empty dictionary for the arguments
+        var arguments = Dictionary&lt;String, String&gt;()
+        
+        // Set the timeOut to be 60.0 (optional)
+        firstRequest.timeOut = 60.0
+        
+        // Submit the request
+        firstRequest.callAPIMethod(method: "DOLAgency/Agencies", arguments: arguments)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        return tableData.count
+    }
+    
+    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+        let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "MyTestCell")
+        
+        var rowData: NSDictionary = self.tableData[indexPath.row] as NSDictionary
+        
+        cell.textLabel.text = rowData["Agency"] as String
+        
+        var agencyName: NSString = rowData["AgencyFullName"] as NSString
+        
+        cell.detailTextLabel.text = agencyName
+        
+        return cell
+    }
+
+    func didCompleteWithError (errorMessage: String) {
+        NSLog("error")
+        
+    }
+    
+    func didCompleteWithDictionary (results:NSDictionary) {
+        var resultsDictionary: NSDictionary = results["d"] as NSDictionary
+        var resultsArray: NSArray = resultsDictionary["results"] as NSArray
+        dispatch_async(dispatch_get_main_queue(), {
+            self.tableData = resultsArray
+            self.appsTableView.reloadData()
+            })
+        
+        
+    }
+}</pre>
+</div>
+</div>
+  	<div class='limiter pad0y pad4x clearfix'>
+  		<div class='col12 pad1y'>
+
+
+
