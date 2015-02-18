@@ -19,7 +19,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Do any additional setup after loading the view, typically from a nib.
         
         // Initialize the SDK
-        var firstRequest: GovDataRequest = GovDataRequest(APIKey: "", APIHost: "http://api.dol.gov", APIURL: "/V1")
+        var firstRequest: GovDataRequest = GovDataRequest(APIKey: "737c27e1-3a62-430a-b644-e65109b8fd97", APIHost: "http://api.dol.gov", APIURL: "/V1")
         
         // Set this class to be the SDK's delegate
         firstRequest.delegate = self
@@ -47,13 +47,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "MyTestCell")
         
-        var rowData: NSDictionary = self.tableData[indexPath.row] as NSDictionary
+        var rowData: NSDictionary = self.tableData[indexPath.row] as! NSDictionary
         
         cell.textLabel?.text = rowData["Agency"] as? String
         
-        var agencyName: NSString = rowData["AgencyFullName"] as NSString
+        var agencyName: NSString = rowData["AgencyFullName"] as! NSString
         
-        cell.detailTextLabel?.text = agencyName
+        cell.detailTextLabel?.text = agencyName as? String
         
         return cell
     }
@@ -68,8 +68,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func didCompleteWithDictionary (results:NSDictionary) {
-        var resultsDictionary: NSDictionary = results["d"] as NSDictionary
-        var resultsArray: NSArray = resultsDictionary["results"] as NSArray
+        var resultsDictionary: NSDictionary = results["d"] as! NSDictionary
+        var resultsArray: NSArray = resultsDictionary["results"] as! NSArray
         dispatch_async(dispatch_get_main_queue(), {
             self.tableData = resultsArray
             self.appsTableView.reloadData()
