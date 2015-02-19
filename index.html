@@ -28,7 +28,7 @@ Next, right-click (alternate: ctrl-click) on the table view and drag your cursor
 <h3 class="subtitle">Set up your View Controller</h3>
 Let's first get some of the basic required code in place before we get to the SDK.  Since this view controller contains a table view, we need to make some changes to the class declaration:<br><br>
 
-<script src="https://gist.github.com/MikePulsiferDOL/08c8ca41a142ded191e2.js"></script><br>
+<script src="https://gist.github.com/MikePulsiferDOL/0890f4efbedde1037bdd.js"></script><br>
 Below this line and before the viewDidLoad function, add the following:<br>
 <br><script src="https://gist.github.com/MikePulsiferDOL/68e5cdb66c9ee5cfe40a.js"></script><br>
 In order for our view controller to conform to the <strong>UITableViewDataSource</strong> protocol, we need to add a few functions within the class:
@@ -44,28 +44,9 @@ Using the link above, download the SDK to your computer.  Copy  <strong>GovDataR
 <h3 class="subtitle">Apply the SDK</h3>
 <h4 class="subtitle">Conform to the protocol</h4>
 For the SDK to function properly, we need to ensure the view controller conforms to its protocol.  Make one more change to the class declaration:
-<pre class="prettyprint">class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, GovDataRequestProtocol {</pre><br>
+<br><br><script src="https://gist.github.com/MikePulsiferDOL/08c8ca41a142ded191e2.js"></script><br>
 Now, add two more functions to the class:
-<pre class="prettyprint">    func didCompleteWithError (errorMessage: String) {
-        NSLog("error")
-        
-    }
-    
-    func didCompleteWithDictionary (results:NSDictionary) {
-        var resultsDictionary: NSDictionary = results["d"] as NSDictionary
-        var resultsArray: NSArray = resultsDictionary["results"] as NSArray
-        dispatch_async(dispatch_get_main_queue(), {
-            self.tableData = resultsArray
-            self.appsTableView.reloadData()
-            })
-        
-        
-    }
-
-    func didCompleteWithXML (results:XMLIndexer) {
-        
-    }
-</pre><br>
+<br><br><script src="https://gist.github.com/MikePulsiferDOL/8e854047110c2b06fe1b.js"></script><br>
 <p><strong>note:</strong> The first two lines of code we just added inside <strong>didCompleteWithDictionary</strong> are based on the structure of the JSON response that DOL's V1 API returns.  If you use this with another API, what you do here may be different.</p>
 <h4 class="subtitle">Prepare To Send A Request</h4>
 Back up in the <strong>viewDidLoad</strong> function, add the following:
