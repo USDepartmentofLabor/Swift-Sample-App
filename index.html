@@ -26,29 +26,13 @@ Give your project a Product Name.  If Organization Name and Organization Identif
 Open your main storyboard and drag a <strong>Table View</strong> (not a Table View Controller) to the main window.  Make sure it snaps into place with the top edge just below the battery indicator.  With the table view selected, choose the icon near the bottom right of the storyboard and second from the right.  Its tool tip is <strong>"Resolve Auto Layout Issues"</strong> and it looks like a TIE Fighter&trade;.  In the pop-up menu, choose <strong>Reset to Suggested Constraints</strong>.<br><br>
 Next, right-click (alternate: ctrl-click) on the table view and drag your cursor over to the <strong>View Controller</strong> in the <strong>View Controller Scene</strong>.  Choose the dataSource outlet.  Do the same for delegate.<br><br>
 <h3 class="subtitle">Set up your View Controller</h3>
-Let's first get some of the basic required code in place before we get to the SDK.  Since this view controller contains a table view, we need to make some changes to the class declaration:<br>
+Let's first get some of the basic required code in place before we get to the SDK.  Since this view controller contains a table view, we need to make some changes to the class declaration:<br><br>
 
 <script src="https://gist.github.com/MikePulsiferDOL/08c8ca41a142ded191e2.js"></script><br>
-Below this line and before the viewDidLoad function, add the following:
+Below this line and before the viewDidLoad function, add the following:<br>
 <br><script src="https://gist.github.com/MikePulsiferDOL/68e5cdb66c9ee5cfe40a.js"></script><br>
 In order for our view controller to conform to the <strong>UITableViewDataSource</strong> protocol, we need to add a few functions within the class:
-<pre class="prettyprint">    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "MyTestCell")
-        
-        var rowData: NSDictionary = self.tableData[indexPath.row] as NSDictionary
-        
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // don't do anything
-    }
-
-</pre><br>
+<br><br><script src="https://gist.github.com/MikePulsiferDOL/ca4ff6dddee7debf2593.js"></script><br>
 Next, let's make the connection between our outlet and the table view itself.  Near the top right of the window is an icon that looks like a tuxedo.  That is the <strong>Assistant Editor</strong>.  Choose that.  Your window will split into two.  On the left-hand side should be <strong>ViewController.swift</strong>.  The window on the right will likely be empty.  Near the top of that window are a backwards and forwards button and another button, likely text just to the right of those.  Click that.  Choose <strong>Manual</strong> -&gt; <strong><i>project name</i></strong> -&gt; <strong><i>project name</i></strong> -&gt; <strong>Main.storyboard</strong> -&gt; <strong>Main.storyboard (base)</strong>.  In your swift file, click on the empty circle to the left of <strong>@IBOutlet</strong> and drag it to the <strong>Table View</strong> in the <strong>View Controller Scene</strong>.  Once you have done this, you can switch back to the <strong>Standard Editor</strong> (the icon to the left of the tuxedo).
 </div>
 </div>
